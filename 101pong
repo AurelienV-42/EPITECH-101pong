@@ -1,0 +1,81 @@
+#!/usr/bin/python3
+
+from math import *
+from decimal import Decimal
+import sys
+
+#VERIFIER QUE LE TEMPS EST UN ENTIER
+def isint(arg):
+     try:
+          int(arg)
+     except ValueError:
+          print ("The time have to be an integer !")
+          return sys.exit(84)
+     return int(arg)
+
+#VERIFIER QUE LES ARGUMENTS SONT DES NOMBRES
+def isfloat(arg):
+     try:
+          float(arg)
+     except ValueError:
+          print ("The arguments have to be digits !")
+          return sys.exit(84)
+     return float(arg)
+
+if (len(sys.argv) < 8 or len(sys.argv) > 8):
+     print ("You have to insert 7 digits !")
+     sys.exit(84)
+     
+x0 = isfloat(sys.argv[1])
+y0 = isfloat(sys.argv[2])
+z0 = isfloat(sys.argv[3])
+x1 = isfloat(sys.argv[4])
+y1 = isfloat(sys.argv[5])
+z1 = isfloat(sys.argv[6])
+time = isint(sys.argv[7])
+
+if (time < 0):
+     print ("The time have to be positive !")
+     sys.exit(84)
+
+#CALCULER LE VECTEUR VITESSE :
+
+vx0 = (x1 - x0)
+vy0 = (y1 - y0)
+vz0 = (z1 - z0)
+
+#CALCULER LES COORDONNEES D'UNE BALLE A UN TEMPS DONNE
+
+xt = x0 + (vx0 * (time + 1))
+yt = y0 + (vy0 * (time + 1))
+zt = z0 + (vz0 * (time + 1))
+
+d1 = Decimal(vx0)
+d2 = Decimal(vy0)
+d3 = Decimal(vz0)
+d4 = Decimal(xt)
+d5 = Decimal(yt)
+d6 = Decimal(zt)
+out_vx0 = round(d1,2)
+out_vy0 = round(d2,2)
+out_vz0 = round(d3,2)
+out_xt = round(d4,2)
+out_yt = round(d5,2)
+out_zt = round(d6,2)
+
+print ("The speed vector coordinates are :")
+print ('(',out_vx0,';',out_vy0,';',out_vz0,')', sep='')
+print ("At time t+",time,", ball coordinates will be :", sep='')
+print ('(',out_xt,';',out_yt,';',out_zt,')', sep='')
+prod_scal = sqrt((x1 - x0)**2 + (y1 - y0)**2 + (z1 - z0)**2)
+if (prod_scal < 0):
+    print ("The ball won't reach the bat.")
+    sys.exit(84)
+degrees = acos((z1 - z0)/(prod_scal)) * (180/pi) - 90
+if (degrees < 0 or degrees > 90):
+     print ("The ball won't reach the bat.")
+     sys.exit(0)
+d7 = Decimal(degrees)
+output = round(d7,2)
+print ("The incidence angle is :")
+print (output, "degrees")
